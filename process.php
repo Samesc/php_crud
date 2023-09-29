@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
         $first_name = $_POST['firstName'];
         $last_name = $_POST['lastName'];
 
-        $sql = "INSERT INTO student (ID, Last_Name, First_Name)
+        $sql = "INSERT INTO student (identifier, Last_Name, First_Name)
 	 VALUES ($id, '$last_name', '$first_name')";
 
         echo "<h2>";
@@ -33,7 +33,7 @@ if (isset($_POST['submit'])) {
         $last_name = $_POST['lastName'];
         $sql = "UPDATE student SET 
                 Last_Name = '$last_name', First_Name = '$first_name'
-                WHERE ID = $id";
+                WHERE identifier = $id";
 
         echo "<h2>";
         if (mysqli_query($conn, $sql)) {
@@ -48,7 +48,7 @@ if (isset($_POST['submit'])) {
         $first_name = $_POST['firstName'];
         $last_name = $_POST['lastName'];
         $sql = "DELETE FROM student 
-                WHERE ID = $id";
+                WHERE identifier = $id";
 
         echo "<h2>";
         if (mysqli_query($conn, $sql)) {
