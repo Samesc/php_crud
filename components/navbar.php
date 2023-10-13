@@ -7,12 +7,36 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="create.php">Registrar <span class="sr-only"></span></a>
+                <a class="nav-link" href="../../views/student/create.php">Registrar estudiante<span class="sr-only"></span></a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="../../views/teacher/create.php">Registrar maestro<span class="sr-only"></span></a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="../../views/course/create.php">Registrar curso<span class="sr-only"></span></a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="../../views/assignment/create.php">Asignar cursos<span class="sr-only"></span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="../../views/student/read.php">Listado de estudiantes<span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="read.php">Listado <span class="sr-only"></span></a>
+                <a class="nav-link" href="../../views/teacher/read.php">Listado de maestros <span class="sr-only"></span></a>
             </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="../../views/course/read.php">Listado de cursos<span class="sr-only"></span></a>
             </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="../../views/assignment/read.php">Asignación de cursos<span class="sr-only"></span></a>
+            </li>
+            
         </ul>
     </div>
 </nav>

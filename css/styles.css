@@ -22,3 +22,27 @@ tr:nth-child(even) {
 h3 {
     color: blueviolet;
 }
+
+.warning{
+    color: red;
+    font-weight: bold;
+}
+
+.success{
+    color: darkgreen;
+    font-weight: bold;
+}
+
+
+label.error {
+    color: red;
+    font-size: 1rem;
+    display: block;
+    margin-top: 5px;
+}
+
+input.error {
+    border: solid 1px red;
+    font-weight: 300;
+    color: red;
+}
