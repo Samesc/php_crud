@@ -6,6 +6,16 @@ include_once '../../components/header.php';
 <?php
 include_once '../../components/navbar.php';
 ?>
+<?php
+if (!isset($_SESSION["user"])) {
+    header("Location:../../views/auth/login.php");
+}
+?>
+<?php
+if ($_SESSION["role"] != 1) {
+    header("Location:../../views/home/home.php");
+}
+?>
 
 <?php
 include_once '../../backend/database.php';

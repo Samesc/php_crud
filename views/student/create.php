@@ -5,7 +5,11 @@ include_once '../../components/header.php';
 <?php
 include_once '../../components/navbar.php';
 ?>
-
+<?php
+if (!isset($_SESSION["user"])) {
+    header("Location:../../views/auth/login.php");
+}
+?>
     <div class="container jumbotron">
         <h2>Creación de estudiantes</h2>
         <form id="sendDatafrom">

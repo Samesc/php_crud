@@ -6,6 +6,12 @@ include_once '../../components/header.php';
 <?php
 include_once '../../components/navbar.php';
 ?>
+<?php
+if (!isset($_SESSION["user"])) {
+    header("Location:../../views/auth/login.php");
+}
+?>
+
 
 <?php
 include_once '../../backend/database.php';
@@ -25,7 +31,12 @@ $result = mysqli_query($conn, "SELECT * FROM course INNER JOIN teacher ON teache
                     <td>Descripcion</td>
                     <td>Carnet maestro</td>
                     <td>Maestro asignado</td>
+                    
+                <?php
+                    if ($_SESSION["role"] == 1) {
+                ?>
                     <td>Acciones</td>
+                <?php  } ?>
                 </tr>
                 <?php
                 $i = 0;
@@ -37,10 +48,14 @@ $result = mysqli_query($conn, "SELECT * FROM course INNER JOIN teacher ON teache
                         <td><?php echo $row["description"]; ?></td>
                         <td><?php echo $row["idteacher"]; ?></td>
                         <td><?php echo $row["firstName"]; ?> <?php echo $row["lastName"]; ?> </td>
+                        <?php
+                            if ($_SESSION["role"] == 1) {
+                        ?>
                          <td>
                             <a class="btn btn-success" href="update.php?id=<?php echo $row["idcourse"]; ?>">Actualizar</a>
                             <a class="btn btn-danger"  href="delete.php?idcourse=<?php echo $row["idcourse"]; ?>">Borrar</a>
                         </td>
+                        <?php  } ?>
                     </tr>
                     <?php
                     $i++;

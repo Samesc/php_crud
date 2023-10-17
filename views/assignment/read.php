@@ -6,10 +6,15 @@ include_once '../../components/header.php';
 <?php
 include_once '../../components/navbar.php';
 ?>
-
+<?php
+if (!isset($_SESSION["user"])) {
+    header("Location:../../views/auth/login.php");
+}
+?>
 <?php
 include_once '../../backend/database.php';
-$result = mysqli_query($conn, "SELECT * FROM assignment");
+
+$result = mysqli_query($conn, "SELECT * FROM assignment INNER JOIN student ON student.idstudent = assignment.idstudent INNER JOIN school_db.course ON course.idcourse = assignment.idcourse");
 ?>
 
     <div class="container jumbotron">
@@ -20,9 +25,12 @@ $result = mysqli_query($conn, "SELECT * FROM assignment");
             <table>
 
                 <tr>
-                    <td>ID</td>
                     <td>Carnet estudiante</td>
+                    
+                    <td>Nombres estudiante</td>
+                    <td>Apellidos estudiante</td>
                     <td>Código curso</td>
+                    <td>Nombre curso</td>
                     <td>Acciones</td>
                 </tr>
                 <?php
@@ -30,12 +38,14 @@ $result = mysqli_query($conn, "SELECT * FROM assignment");
                 while ($row = mysqli_fetch_array($result)) {
                     ?>
                     <tr>
-                        <td><?php echo $row["idassignment"]; ?></td>
                         <td><?php echo $row["idstudent"]; ?></td>
+                        <td><?php echo $row["firstName"]; ?></td>
+                        <td><?php echo $row["lastName"]; ?></td>
                         <td><?php echo $row["idcourse"]; ?></td>
+                        <td><?php echo $row["nombre"]; ?></td>
                          <td>
-                            <a class="btn btn-success" href="update.php?idassignment=<?php echo $row["idassignment"]; ?>">Actualizar</a>
-                            <a class="btn btn-danger"  href="delete.php?idassignment=<?php echo $row["idassignment"]; ?>">Borrar</a>
+                            <a class="btn btn-success" href="update.php?idstudent= <?php echo$row["idstudent"];?>&idcourse=<?php echo$row["idcourse"];?>">Actualizar</a>
+                            <a class="btn btn-danger"  href="delete.php?idstudent=<?php echo$row["idstudent"];?>&idcourse=<?php echo$row["idcourse"];?>">Borrar</a>
                         </td>
                     </tr>
                     <?php

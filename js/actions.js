@@ -31,6 +31,96 @@ function searchId(newId) {
   }
 }
 
+function logout() {
+  authType = document.getElementById("authType").value;
+
+  resultMessage = document.getElementById("resultMessage");
+
+  var data = { auth: authType };
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+      response = JSON.parse(this.responseText);
+
+      if (response.success) {
+        location.href = "../../views/auth/login.php";
+      }
+    }
+  };
+  xmlhttp.open("POST", "../../views/auth/process.php", true);
+  xmlhttp.setRequestHeader("Content-Type", "application/json");
+  xmlhttp.send(JSON.stringify(data));
+}
+
+function login() {
+  user = document.getElementById("user").value;
+  pass = document.getElementById("password").value;
+  authType = document.getElementById("authType").value;
+
+  resultMessage = document.getElementById("resultMessage");
+
+  var data = { user: user, password: pass, auth: authType };
+
+  console.log(data);
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+      response = JSON.parse(this.responseText);
+
+      resultMessage.innerHTML = response.message;
+      if (!response.success) {
+        resultMessage.classList.add("redMessage");
+      } else {
+        resultMessage.classList.remove("redMessage");
+        location.href = "../../views/home/home.php";
+      }
+    }
+  };
+  xmlhttp.open("POST", "process.php", true);
+  xmlhttp.setRequestHeader("Content-Type", "application/json");
+  xmlhttp.send(JSON.stringify(data));
+}
+
+function registerUser() {
+  newName = document.getElementById("name").value;
+  newRole = document.getElementById("role").value;
+  newPass = document.getElementById("password").value;
+  authType = document.getElementById("authType").value;
+
+  var data = {
+    name: newName,
+    password: newPass,
+    auth: authType,
+    role: newRole,
+  };
+
+  mdlMessage = document.getElementById("messageModal");
+
+  txtmdlMessage = document.getElementById("mdlMessage");
+  txtmdlSuccess = document.getElementById("mdlSuccess");
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+      response = JSON.parse(this.responseText);
+
+      txtmdlSuccess.value = response.success;
+      txtmdlMessage.innerHTML = response.message;
+    }
+  };
+  xmlhttp.open("POST", "process.php", true);
+  xmlhttp.setRequestHeader("Content-Type", "application/json");
+  xmlhttp.send(JSON.stringify(data));
+}
+
 function sendData() {
   validateCreateForm();
   id = document.getElementById("id").value;
@@ -78,13 +168,16 @@ function sendDataCourse() {
   id = document.getElementById("id").value;
   nameCourse = document.getElementById("name").value;
   description = document.getElementById("description").value;
-  idteacher = document.getElementById("idteacher").value;
+  idteacher = document.getElementById("idteacher");
+
+  var text = idteacher.options[idteacher.selectedIndex].value;
+
   type = document.getElementById("type").value;
   var data = {
     id,
     nameCourse,
     description,
-    idteacher,
+    idteacher: idteacher.value,
     type,
   };
 
@@ -110,15 +203,53 @@ function sendDataCourse() {
   xmlhttp.send(JSON.stringify(data));
 }
 
+function DELsendDataCourse() {
+  id = document.getElementById("id").value;
+  nameCourse = document.getElementById("name").value;
+  description = document.getElementById("description").value;
+  idteacher = document.getElementById("idteacher").value;
+
+  type = document.getElementById("type").value;
+  var data = {
+    id,
+    nameCourse,
+    description,
+    idteacher,
+    type,
+  };
+
+  mdlMessage = document.getElementById("messageModal");
+
+  txtmdlMessage = document.getElementById("mdlMessage");
+  txtmdlSuccess = document.getElementById("mdlSuccess");
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      result = this.responseText;
+      console.log(result);
+      response = JSON.parse(this.responseText);
+
+      console.log(response.success);
+      txtmdlSuccess.value = response.success;
+      txtmdlMessage.innerHTML = response.message;
+    }
+  };
+  xmlhttp.open("POST", "process.php", true);
+  xmlhttp.setRequestHeader("Content-Type", "application/json");
+  xmlhttp.send(JSON.stringify(data));
+}
+
 function sendDataAssignment() {
   validateAssigmentForm();
-  idstudent = document.getElementById("idstudent").value;
-  idcourse = document.getElementById("idcourse").value;
+  idstudent = document.getElementById("idstudent");
+  idcourse = document.getElementById("idcourse");
   type = document.getElementById("type").value;
 
   var data = {
-    idstudent,
-    idcourse,
+    idstudent: idstudent.value,
+    idcourse: idcourse.value,
     type,
   };
 
@@ -146,18 +277,56 @@ function sendDataAssignment() {
   xmlhttp.send(JSON.stringify(data));
 }
 
-function UpDelsendDataAssignment() {
+function updateDataAssignment() {
   validateAssigmentForm();
-  id = document.getElementById("id").value;
+  idstudent = document.getElementById("idstudent");
+  idcourse = document.getElementById("idcourse");
+  type = document.getElementById("type").value;
+  tempidstudent = document.getElementById("tempidstudent").value;
+  tempidcourse = document.getElementById("tempidcourse").value;
+
+  var data = {
+    idstudent: idstudent.value,
+    idcourse: idcourse.value,
+    type,
+    tempidstudent,
+    tempidcourse,
+  };
+
+  mdlMessage = document.getElementById("messageModal");
+
+  txtmdlMessage = document.getElementById("mdlMessage");
+  txtmdlSuccess = document.getElementById("mdlSuccess");
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+      response = JSON.parse(this.responseText);
+
+      txtmdlSuccess.value = response.success;
+      txtmdlMessage.innerHTML = response.message;
+    }
+  };
+  xmlhttp.open("POST", "process.php", true);
+  xmlhttp.setRequestHeader("Content-Type", "application/json");
+  xmlhttp.send(JSON.stringify(data));
+}
+
+function deletesendDataAssignment() {
+  validateAssigmentForm();
   idstudent = document.getElementById("idstudent").value;
   idcourse = document.getElementById("idcourse").value;
   type = document.getElementById("type").value;
-
+  tempidstudent = document.getElementById("tempidstudent").value;
+  tempidcourse = document.getElementById("tempidcourse").value;
   var data = {
-    id,
     idstudent,
     idcourse,
     type,
+    tempidstudent,
+    tempidcourse,
   };
 
   mdlMessage = document.getElementById("messageModal");
@@ -212,6 +381,8 @@ function valideKey(evt) {
     return false;
   }
 }
+
+//Validar en js
 
 function validateCreateForm() {
   $("#sendDatafrom").validate({

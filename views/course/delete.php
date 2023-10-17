@@ -6,10 +6,20 @@ include_once '../../components/header.php';
 <?php
 include_once '../../components/navbar.php';
 ?>
+<?php
+if (!isset($_SESSION["user"])) {
+    header("Location:../../views/auth/login.php");
+}
+?>
+<?php
+if ($_SESSION["role"] != 1) {
+    header("Location:../../views/home/home.php");
+}
+?>
 
 <?php
 include_once '../../backend/database.php';
-$result = mysqli_query($conn,"SELECT * FROM course WHERE idcourse='" . $_GET['idcourse'] . "'");
+$result = mysqli_query($conn,"SELECT * FROM course INNER JOIN teacher ON idcourse='" . $_GET['idcourse'] . "' AND course.idteacher = teacher.idteacher");
 $row= mysqli_fetch_array($result);
 ?>
 
@@ -30,11 +40,11 @@ $row= mysqli_fetch_array($result);
         </div>
         <div>
             <p class="lead">Maestro asignado: </p>
-            <input readonly type="text" class="lead" name="date" id="idteacher" value="<?php echo $row['idteacher']; ?>">
+            <input readonly type="text" class="lead" name="date" id="idteacher" value="<?php echo $row['firstName']; ?> <?php echo $row['lastName']; ?>">
         </div>
         <div class="lead">
             <input type="hidden" value="3" name="type" id="type">
-            <input type="button" class="btn btn-danger" name="submit" id="sendStudentData"  data-toggle="modal" data-target="#messageModal" onclick="sendDataCourse()" value="Borrar">
+            <input type="button" class="btn btn-danger" name="submit" id="sendStudentData"  data-toggle="modal" data-target="#messageModal" onclick="DELsendDataCourse()" value="Borrar">
         </div>
     </form>
 </div>
